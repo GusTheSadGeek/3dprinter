@@ -109,6 +109,7 @@ module ccc(p,t=2){
 }
 
 module CornerJoint(){
+    bom(str("Corner Joint"), str("??"), ["Hardware"]);
     t=2;
     h=17;
     y=20;

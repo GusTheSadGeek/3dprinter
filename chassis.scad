@@ -40,33 +40,59 @@ module vslot_test() {
 
 $fn = 32;
 
-module xrailF(x,y,z=0){
-    translate([v,v/2,v/2+z]) rotate([-90,0,-90]) vslot20x20(x-v*2);
+
+
+NO_B=[0,0,0,0,0,0,0,0];
+BOT_B=[1,0,1,0,0,0,0,0];
+TOP_B=[0,1,0,1,0,0,0,0];
+TOPBOT_B=BOT_B+TOP_B;
+
+LEFT_B=[0,0,0,0,1,0,1,0];
+RIGHT_B=[0,0,0,0,0,1,0,1];
+
+
+module vslot20x20b(l,b=NO_B){
+    vslot20x20(l);
+    if (b[0]) {translate([-v/2,v/2,0]) CornerJointI();}
+    if (b[1]) {translate([-v/2,-v/2,0]) CornerJointJ();}
+
+    if (b[2]) {translate([-v/2,v/2,l])   CornerJointL();}
+    if (b[3]) {translate([-v/2,-v/2,l])   CornerJointK();}
+    
+    if (b[4]) {translate([v/2,-v/2,0]) CornerJointE();}
+    if (b[5]) {translate([-v/2,v/2,0])   CornerJointH();}
+
+    if (b[6]) {translate([v/2,-v/2,l]) CornerJointF();}
+    if (b[7]) {translate([-v/2,v/2,l])   CornerJointG();}
+}
+
+module xrailF(x,y,z=0,b=NO_B){
+    translate([v,v/2,v/2+z]) rotate([-90,0,-90]) vslot20x20b(x-v*2,b);
 }
 module xrailB(x,y,z=0){
-    translate([v,y-v/2,v/2+z]) rotate([-90,0,-90]) vslot20x20(x-v*2);
+    translate([v,y-v/2,v/2+z]) rotate([-90,0,-90]) vslot20x20b(x-v*2,b);
 }
 
-module yrailL(x,y,z=0){
-    translate([v/2,v,v/2+z]) rotate([-90,0,0]) vslot20x20(y-v*2);
+module yrailL(x,y,z=0,b=NO_B){
+    translate([v/2,v,v/2+z]) rotate([-90,0,0]) vslot20x20b(y-v*2,b);
 }
-module yrailR(x,y,z=0){
-    translate([x-v/2,v,v/2+z]) rotate([-90,0,0]) vslot20x20(y-v*2);
+module yrailR(x,y,z=0,b=NO_B){
+    translate([x-v/2,v,v/2+z]) rotate([-90,0,0]) vslot20x20b(y-v*2,b);
 }
 
-module base(x,y){
-    xrailF(x,y);
-    xrailB(x,y);
-    yrailL(x,y);
-    yrailR(x,y);
+module base(x,y,b=TOP_B){
+    xrailF(x,y,b=b);
+    xrailB(x,y,b=b);
+    yrailL(x,y,b=b+LEFT_B);
+    yrailR(x,y,b=b+RIGHT_B);
 }
 
 module pillars(x,y,h,c=false){
-    translate([v/2,v/2,0]) vslot20x20(h);
-    translate([x-v/2,v/2,0]) vslot20x20(h);
+    translate([v/2,v/2,0]) vslot20x20b(h);
+    translate([x-v/2,v/2,0]) vslot20x20b(h);
 
-    translate([v/2,y-v/2,0]) vslot20x20(h);
-    translate([x-v/2,y-v/2,0]) vslot20x20(h);
+    translate([v/2,y-v/2,0]) vslot20x20b(h);
+    translate([x-v/2,y-v/2,0]) vslot20x20b(h);
 }
 
 module chassis(x,y,h,c=false){
@@ -74,52 +100,18 @@ module chassis(x,y,h,c=false){
     yo=c?y/-2:0;
     ho=0;
     translate([xo,yo,ho]){
-        base(x,y);
-        translate([0,0,h-v]) base(x,y);
+        base(x,y,b=TOP_B);
+        translate([0,0,h-v]) base(x,y,b=BOT_B);
         pillars(x,y,h);
         
-        yrailL(x,y,leadScrewBearingH1-v/2);
-        yrailR(x,y,leadScrewBearingH1-v/2);
-        yrailL(x,y,leadScrewBearingH2-v/2);
-        yrailR(x,y,leadScrewBearingH2-v/2);
+        yrailL(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+        yrailR(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+        yrailL(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+        yrailR(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
     }
-    translate(FLB()+[v,0,v]) CornerJointE();
-    translate(FLB()+[0,v,v]) CornerJointI();
-    translate(FLB()+[v,v,0]) CornerJointA();
-    
-    translate(FRB()+[-v,v,v]) CornerJointH();
-    translate(FRB()+[-v,v,v]) CornerJointI();
-    translate(FRB()+[-v,v,0]) CornerJointB();
-    
-
-    translate(BLB()+[0,-v,v]) CornerJointJ();
-    translate(BLB()+[v,-v,v]) CornerJointE();
-    translate(BLB()+[v,-v,0]) CornerJointD();
-
-    
-    translate(BRB()+[-v,0,v]) CornerJointH();
-    translate(BRB()+[-v,-v,v]) CornerJointJ();
-    translate(BRB()+[-v,-v,0]) CornerJointC();
-
-    translate(FLT()+[v,0,-v]) CornerJointF();
-    translate(FLT()+[0,v,-v]) CornerJointL();
-    translate(FLT()+[v,v,-v]) CornerJointA();
-
-    translate(FRT()+[-v,v,-v]) CornerJointG();
-    translate(FRT()+[-v,v,-v]) CornerJointL();
-    translate(FRT()+[-v,v,-v]) CornerJointB();
-
-    translate(BLT()+[v,-v,-v]) CornerJointF();
-    translate(BLT()+[0,-v,-v]) CornerJointK();
-    translate(BLT()+[v,-v,-v]) CornerJointD();
-
-    
-    translate(BRT()+[-v,0,-v]) CornerJointG();
-    translate(BRT()+[-v,-v,-v]) CornerJointK();
-    translate(BRT()+[-v,-v,-v]) CornerJointC();
-    
 }
 
+union(){
 chassis(x,y,h);
 
 translate(FLB(v)+[0,20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=90);
@@ -127,4 +119,7 @@ translate(BLB(v)-[0,StepperWidth+20,0])leadScrewAssy(b1=leadScrewBearingH1,b2=le
 
 translate(FRB(v)-[StepperWidth,-20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
 translate(BRB(v)-[StepperWidth,StepperWidth+20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
+}
 
+
+//vslot20x20b(500,b=TOPBOT_B);
