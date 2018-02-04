@@ -61,13 +61,17 @@ module leadThreadCoupler(){
     }
 }
 
-module leadScrew(l=500){
+module leadScrew(l=350){
 	bom(str("Lead Screw"), str(l,"mm"), ["Hardware"]);
-    colour("Khaki") cylinder(l,4,4);
+    colour("Red") cylinder(l,4,4);
 }
 
 module leadScrewBearing(c=false){
 	bom(str("Lead Screw Bearing"), str("8mm"), ["Hardware"]);
+    bom(str("Bolt"), str("??"), ["Hardware"]);
+    bom(str("Bolt"), str("??"), ["Hardware"]);
+    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
+    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
     
     xo=c?55/2:0;
     yo=c?29/2:0;
@@ -104,12 +108,33 @@ module leadScrewAssy(b1=100,b2=500,c=false,r=0){
     }
 }
 
+module bedGuide(l=350){
+	bom(str("Bed Guide"), str(l,"mmx8mm"), ["Hardware"]);
+    colour("Khaki") cylinder(l,4,4);
+}
+module bedGuideAssy(b1=100,b2=500,c=false,r=0){
+   
+    xo=c?0:StepperWidth/2;
+    yo=c?0:StepperWidth/2;
+    ho=0;
+    translate([xo,yo,ho]) rotate([0,0,r]) {
+        translate([0,0,62]) bedGuide();
+        translate([0,0,b1]) leadScrewBearing(true);
+        translate([0,0,b2]) leadScrewBearing(true);
+    }
+}
+
+
 module ccc(p,t=2){
     translate(p) cube([t,t,t]);
 }
 
 module CornerJoint(){
     bom(str("Corner Joint"), str("??"), ["Hardware"]);
+    bom(str("Bolt"), str("??"), ["Hardware"]);
+    bom(str("Bolt"), str("??"), ["Hardware"]);
+    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
+    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
     t=2;
     h=17;
     y=20;
@@ -182,6 +207,54 @@ module CornerJointL(){
 }
 
 
+module idlerLugg(q=0){
+    translate([5.5,23,10.5])
+    rotate([55,0,0])
+    rotate([0,-90,0])
+    {
+        difference(){
+            union(){
+                hull(){
+                    cylinder(5,4.5,4.5);
+                    translate([-4.5,-9.7,0]) cube([9,1,5]);
+                    translate([-4.5,-9.7,0]) rotate([0,0,-35]) cube([9,1,5]);
+                }
+                if (q!=1) {translate([0,0,-0.5])cylinder(3,2.5,2.5);}
+                if (q!=2) {translate([0,0,2.5])cylinder(3,2.5,2.5);}
+            }
+            translate([0,0,-2]) cylinder(9,1.5,1.5);
+        }
+    }
+}
+
+module idlerXY(){
+    bom(str("ilderXY"), str("??"), ["Printed"]);
+
+    bom(str("Bolt"), str("??"), ["Hardware"]);
+    bom(str("Bolt"), str("??"), ["Hardware"]);
+    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
+    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
+
+    colour("plum"){
+    a=2;
+    rotate([180,90,0]){
+        difference(){
+            hull(){
+                translate([0,14,0]) cube([35,1,5]);
+                translate([a,a,0]) cylinder(5,a,a);
+                translate([35-a,a,0]) cylinder(5,a,a);
+            }
+            translate([10,10,-1]) cylinder(10,2,2);
+            translate([25,10,-1]) cylinder(10,2,2);
+        }
+        translate([0,0,0]) idlerLugg(2);
+        translate([14.5,0,0]) idlerLugg();
+        translate([29,0,0]) idlerLugg(1);
+    }
+}
+}
+
+*idlerXY($fn=100);
 
 
 

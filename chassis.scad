@@ -8,7 +8,7 @@ h=500;
 v=20; 
 
 leadScrewBearingH1=100;
-leadScrewBearingH2=h-100;
+leadScrewBearingH2=h-110;
 
 
 function FLB(q=0) = [0+q,0+q,0]; // FrontLeftBottom
@@ -108,6 +108,12 @@ module chassis(x,y,h,c=false){
         yrailR(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
         yrailL(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
         yrailR(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+
+        xrailF(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+        xrailB(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+        xrailF(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+        xrailB(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+
     }
 }
 
@@ -119,7 +125,18 @@ translate(BLB(v)-[0,StepperWidth+20,0])leadScrewAssy(b1=leadScrewBearingH1,b2=le
 
 translate(FRB(v)-[StepperWidth,-20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
 translate(BRB(v)-[StepperWidth,StepperWidth+20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
+    
+translate(FLB(v)+[20,0,0])   bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=180);
+translate(BLB(v)+[20,-StepperWidth,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=0);
+
+translate(FRB(v)+[-StepperWidth-v,0,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=180);
+translate(BRB(v)+[-StepperWidth-v,-StepperWidth,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=0);
+    
 }
 
+translate(BRT(v)+[0,v,-20]) idlerXY();
+translate(BLT(v)+[0,v+0,-20]) mirror([1,0,0]) idlerXY();
+
+colour("blue",0.1) translate([(x-400)/2,(y-400)/2,200]) cube([400,400,3]);
 
 //vslot20x20b(500,b=TOPBOT_B);
