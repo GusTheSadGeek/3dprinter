@@ -1,10 +1,15 @@
-use <vslot/bom.scad>;
+include <globals.scad>;
 
-StepperWidth=42.4;
+use <bom/bom.scad>;
+use <cornerBracket.scad>;
+
+
 
 module colour(c,t){
     color(c,t) children();
 }
+
+
 
 module bevelledCube(v,b,c){
         x=v[0];
@@ -61,17 +66,14 @@ module leadThreadCoupler(){
     }
 }
 
-module leadScrew(l=350){
+module leadScrew(l=ChassisH-150){
 	bom(str("Lead Screw"), str(l,"mm"), ["Hardware"]);
     colour("Red") cylinder(l,4,4);
 }
 
 module leadScrewBearing(c=false){
 	bom(str("Lead Screw Bearing"), str("8mm"), ["Hardware"]);
-    bom(str("Bolt"), str("??"), ["Hardware"]);
-    bom(str("Bolt"), str("??"), ["Hardware"]);
-    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
-    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
+    bomBN(2);
     
     xo=c?55/2:0;
     yo=c?29/2:0;
@@ -108,7 +110,7 @@ module leadScrewAssy(b1=100,b2=500,c=false,r=0){
     }
 }
 
-module bedGuide(l=350){
+module bedGuide(l=ChassisH-150){
 	bom(str("Bed Guide"), str(l,"mmx8mm"), ["Hardware"]);
     colour("Khaki") cylinder(l,4,4);
 }
@@ -124,87 +126,6 @@ module bedGuideAssy(b1=100,b2=500,c=false,r=0){
     }
 }
 
-
-module ccc(p,t=2){
-    translate(p) cube([t,t,t]);
-}
-
-module CornerJoint(){
-    bom(str("Corner Joint"), str("??"), ["Hardware"]);
-    bom(str("Bolt"), str("??"), ["Hardware"]);
-    bom(str("Bolt"), str("??"), ["Hardware"]);
-    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
-    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
-    t=2;
-    h=17;
-    y=20;
-    x=20;
-    for(yy=[0,h-t]){
-        hull(){
-            ccc([0,0,yy],t);
-            ccc([x-t,0,yy],t);
-            ccc([0,y-t,yy],t);
-        }
-    }
-    difference(){
-        cube([x,t,h]);
-        hull(){
-            translate([x/2-1,3,h/2]) rotate([90,0,0]) cylinder(4,3,3);
-            translate([x/2+2,3,h/2]) rotate([90,0,0]) cylinder(4,3,3);
-        }
-    }
-    difference(){
-        cube([t,y,h]);
-        hull(){
-            translate([-1,y/2-1,h/2]) rotate([0,90,0]) cylinder(4,3,3);
-            translate([-1,y/2+2,h/2]) rotate([0,90,0]) cylinder(4,3,3);
-        }
-    }
-}
-
-module CornerJointA(){
-    rotate([0,0,0]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointB(){
-     rotate([0,0,90]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointC(){
-    rotate([0,0,180]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointD(){
-    rotate([0,0,270]) translate([0,0,1.5]) CornerJoint();
-}
-
-
-module CornerJointE(){
-    translate([0,20,0]) rotate([90,0,0]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointF(){
-    translate([0,20,0]) rotate([90,90,0]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointG(){
-    rotate([90,180,0]) translate([0,0,1.5]) CornerJoint();
-}
-
-module CornerJointH(){
-    translate([0,0,0]) rotate([90,270,0]) translate([0,0,1.5]) CornerJoint();
-}
-
-
-
-module CornerJointI(){
-    translate([20,0,0]) rotate([0,0,0]) rotate([0,-90,0]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointJ(){
-    translate([20,0,0]) rotate([90,0,0]) rotate([0,-90,0]) translate([0,0,1.5]) CornerJoint();
-}
-module CornerJointK(){
-    translate([20,0,0]) rotate([180,0,0]) rotate([0,-90,0]) translate([0,0,1.5]) CornerJoint();
-}
-
-module CornerJointL(){
-    translate([20,0,0]) rotate([270,0,0]) rotate([0,-90,0]) translate([0,0,1.5]) CornerJoint();
-}
 
 
 module idlerLugg(q=0){
@@ -229,11 +150,10 @@ module idlerLugg(q=0){
 
 module idlerXY(){
     bom(str("ilderXY"), str("??"), ["Printed"]);
-
-    bom(str("Bolt"), str("??"), ["Hardware"]);
-    bom(str("Bolt"), str("??"), ["Hardware"]);
-    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
-    bom(str("Hammer Nut"), str("??"), ["Hardware"]);
+    bom("F623ZZ bearing");bom("F623ZZ bearing");bom("F623ZZ bearing");bom("F623ZZ bearing"); 
+    bom("m3 bolt - longish");
+    bom("m3 nylock nut");
+    bomBN(2);
 
     colour("plum"){
     a=2;

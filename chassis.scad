@@ -1,14 +1,13 @@
+include <globals.scad>;
+
 use <vslot/vslot.scad>;
-include <components.scad>;
 
-x=500;
-y=470;
-h=500;
+use <cornerBracket.scad>;
+use <components.scad>;
 
-v=20; 
 
-leadScrewBearingH1=100;
-leadScrewBearingH2=h-110;
+
+
 
 
 function FLB(q=0) = [0+q,0+q,0]; // FrontLeftBottom
@@ -116,6 +115,8 @@ module chassis(x,y,h,c=false){
 
     }
 }
+
+bomq(";lk;lk;");
 
 union(){
 chassis(x,y,h);
