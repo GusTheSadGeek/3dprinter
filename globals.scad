@@ -1,6 +1,14 @@
 use <bom/bom.scad>;
 use <vslot/vslot.scad>;
 
+
+D_HIGH=5;
+D_MED=3;
+D_LOW=1;
+D_LOWEST=0;
+
+//$DETAIL=D_HIGH;
+
 x=500;
 y=470;
 h=500;

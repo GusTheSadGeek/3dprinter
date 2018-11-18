@@ -56,75 +56,7 @@ module stepper(c=false){
     }
 }
 
-module leadThreadCoupler(){
-	bom(str("Lead Thread Coupler"), str("8mm/6.3mm"), ["Hardware"]);
-    colour("Silver") 
-    difference(){
-        cylinder(25,9,9);
-        translate([0,0,12]) cylinder(14,4,4);
-        translate([0,0,-1]) cylinder(14,3.15,3.15);
-    }
-}
 
-module leadScrew(l=ChassisH-150){
-	bom(str("Lead Screw"), str(l,"mm"), ["Hardware"]);
-    colour("Red") cylinder(l,4,4);
-}
-
-module leadScrewBearing(c=false){
-	bom(str("Lead Screw Bearing"), str("8mm"), ["Hardware"]);
-    bomBN(2);
-    
-    xo=c?55/2:0;
-    yo=c?29/2:0;
-    ho=c?13/2:0;
-    translate([-xo,yo,-ho]){
-        rotate([90,0,0])
-        difference()
-        {
-            union(){
-                colour("Silver") bevelledCube([55,13,2],2);
-                colour("Silver") hull(){
-                    translate([55/2,13,14.5]) rotate([90,0,0]) cylinder(13,14.5,14.5);
-                    translate([(55-29)/2,0,0]) cube([29,13,2]);
-                }
-                colour("Gold") translate([55/2,13.05,14.5]) rotate([90,0,0]) cylinder(13.1,12.5,12.5);
-            }
-            translate([55/2,14,14.5]) rotate([90,0,0]) cylinder(15,4,4);
-            translate([(55-42)/2,6.5,-1]) cylinder(4,2.5,2.5);
-            translate([(55-42)/2+42,6.5,-1]) cylinder(4,2.5,2.5);
-        }
-    }
-}
-
-module leadScrewAssy(b1=100,b2=500,c=false,r=0){
-    xo=c?0:StepperWidth/2;
-    yo=c?0:StepperWidth/2;
-    ho=0;
-    translate([xo,yo,ho]) rotate([0,0,r]) {
-        stepper(true);
-        translate([0,0,62]) leadScrew();
-        translate([0,0,46]) leadThreadCoupler(true);
-        translate([0,0,b1]) leadScrewBearing(true);
-        translate([0,0,b2]) leadScrewBearing(true);
-    }
-}
-
-module bedGuide(l=ChassisH-150){
-	bom(str("Bed Guide"), str(l,"mmx8mm"), ["Hardware"]);
-    colour("Khaki") cylinder(l,4,4);
-}
-module bedGuideAssy(b1=100,b2=500,c=false,r=0){
-   
-    xo=c?0:StepperWidth/2;
-    yo=c?0:StepperWidth/2;
-    ho=0;
-    translate([xo,yo,ho]) rotate([0,0,r]) {
-        translate([0,0,62]) bedGuide();
-        translate([0,0,b1]) leadScrewBearing(true);
-        translate([0,0,b2]) leadScrewBearing(true);
-    }
-}
 
 
 

@@ -1,3 +1,4 @@
+
 include <MCAD/units.scad>;
 include <MCAD/materials.scad>
 use <MCAD/shapes.scad>;
@@ -13,10 +14,12 @@ module vslot(length=50, sections=1, finish) {
 	cutint = [[16.10,0.21],[16.10,2.84],[12.70,6.24],[12.70,8.78],[7.30,8.78],[7.30,6.24],[3.90,2.84],[3.90,0.21],[3.69,0.00],[3.90,-0.21],[3.90,-2.84],[7.30,-6.24],[7.30,-8.78],[12.70,-8.78],[12.70,-6.24],[16.10,-2.84],[16.10,-0.21],[16.31,0.00],];
 	cutcorner = [[8.20,8.20],[6.57,8.20],[6.57,7.66],[7.66,6.57],[8.20,6.57]];
 
+
 	module profile() {
 		difference() {
 			translate([0,0,length/2])
-			roundedBox(20 * sections, 20, length, 1.5);
+			  roundedBox(20 * sections, 20, length, 1.5);
+			
 			for(i = [0,180]) rotate([0,0,-i]) translate([10 * (sections - 1), 0, -epsilon/2]) {
 				linear_extrude(length+20) polygon(cutext);
 				translate([5,-2.89,-20]) cube([10,5.78,length+40]);
@@ -27,16 +30,19 @@ module vslot(length=50, sections=1, finish) {
 					linear_extrude(length+epsilon) polygon(cutext);
 					translate([5,-2.89,-20]) cube([10,5.78,length+40]);
 				}
+			if ($DETAIL > 3) {
+				for(i = [0:sections-1]) translate([i * 20 - 10 * (sections - 1),0,-epsilon/2])
+					cylinder(length+20, 2.1, 2.1);
+			}
 
-			for(i = [0:sections-1]) translate([i * 20 - 10 * (sections - 1),0,-epsilon/2])
-				cylinder(length+20, 2.1, 2.1);
-
-			for(i = [90,270]) rotate([0,0,-i])
-				translate([0,(sections - 1) * 10,-epsilon/2])
-				linear_extrude(length+epsilon) polygon(cutcorner);
-			for(i = [ 0,180]) rotate([0,0,-i])
-				translate([(sections - 1) * 10,0,-epsilon/2])
-				linear_extrude(length+epsilon) polygon(cutcorner);
+			if ($DETAIL > 3) {
+				for(i = [90,270]) rotate([0,0,-i])
+					translate([0,(sections - 1) * 10,-epsilon/2])
+					linear_extrude(length+epsilon) polygon(cutcorner);
+				for(i = [ 0,180]) rotate([0,0,-i])
+					translate([(sections - 1) * 10,0,-epsilon/2])
+					linear_extrude(length+epsilon) polygon(cutcorner);
+		  }
 
 			if(sections > 1)
 				for(i = [0:sections-2]) translate([(sections - 3) * 10 - i * 20, 0, -epsilon/2])

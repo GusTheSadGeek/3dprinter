@@ -24,16 +24,20 @@ module CornerJoint(){
     }
     difference(){
         cube([length,thickness,width]);
-        hull(){
-            translate([length/2-1,3,width/2]) rotate([90,0,0]) cylinder(4,3,3);
-            translate([length/2+2,3,width/2]) rotate([90,0,0]) cylinder(4,3,3);
+        if ($DETAIL > 4) {
+            hull(){
+                translate([length/2-1,3,width/2]) rotate([90,0,0]) cylinder(4,3,3);
+                translate([length/2+2,3,width/2]) rotate([90,0,0]) cylinder(4,3,3);
+            }
         }
     }
     difference(){
         cube([thickness,height,width]);
-        hull(){
-            translate([-1,height/2-1,width/2]) rotate([0,90,0]) cylinder(4,3,3);
-            translate([-1,height/2+2,width/2]) rotate([0,90,0]) cylinder(4,3,3);
+        if ($DETAIL > 4) {
+            hull(){
+                translate([-1,height/2-1,width/2]) rotate([0,90,0]) cylinder(4,3,3);
+                translate([-1,height/2+2,width/2]) rotate([0,90,0]) cylinder(4,3,3);
+            }
         }
     }
 }
@@ -42,7 +46,7 @@ module CornerJointA(){
     rotate([0,0,0]) translate([0,0,1.5]) CornerJoint();
 }
 module CornerJointB(){
-     rotate([0,0,90]) translate([0,0,1.5]) CornerJoint();
+    rotate([0,0,90]) translate([0,0,1.5]) CornerJoint();
 }
 module CornerJointC(){
     rotate([0,0,180]) translate([0,0,1.5]) CornerJoint();
