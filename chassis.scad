@@ -103,13 +103,13 @@ module chassis(x,y,h,c=false){
         translate([0,0,h-v]) base(x,y,b=BOT_B);
         pillars(x,y,h);
         
-        yrailL(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
-        yrailR(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+*        yrailL(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+*        yrailR(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
         yrailL(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
         yrailR(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
 
-        xrailF(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
-        xrailB(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+*        xrailF(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+*        xrailB(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
         xrailF(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
         xrailB(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
 
@@ -121,17 +121,17 @@ bomq(";lk;lk;");
 union(){
 chassis(x,y,h);
 
-translate(FLB(v)+[0,20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=90);
-translate(BLB(v)-[0,StepperWidth+20,0])leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=90);
+*translate(FLB(v)+[0,20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=90);
+*translate(BLB(v)-[0,StepperWidth+20,0])leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=90);
 
-translate(FRB(v)-[StepperWidth,-20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
-translate(BRB(v)-[StepperWidth,StepperWidth+20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
+*translate(FRB(v)-[StepperWidth,-20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
+*translate(BRB(v)-[StepperWidth,StepperWidth+20,0]) leadScrewAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=270);
     
-translate(FLB(v)+[20,0,0])   bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=180);
-translate(BLB(v)+[20,-StepperWidth,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=0);
+*translate(FLB(v)+[20,0,0])   bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=180);
+*translate(BLB(v)+[20,-StepperWidth,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=0);
 
-translate(FRB(v)+[-StepperWidth-v,0,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=180);
-translate(BRB(v)+[-StepperWidth-v,-StepperWidth,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=0);
+*translate(FRB(v)+[-StepperWidth-v,0,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=180);
+*translate(BRB(v)+[-StepperWidth-v,-StepperWidth,0]) bedGuideAssy(b1=leadScrewBearingH1,b2=leadScrewBearingH2,r=0);
     
 }
 

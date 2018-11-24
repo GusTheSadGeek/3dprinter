@@ -31,6 +31,8 @@ module bevelledCube(v,b,c){
         }
 }
 
+
+
 module stepper(c=false){
 	bom(str("Stepper Motor"), str("NEMA 17"), ["Electronics"]);
     
@@ -55,10 +57,6 @@ module stepper(c=false){
         colour("LightGray") translate([W/2,W/2,L]) cylinder(24,2.5,2.5, $fn=100);
     }
 }
-
-
-
-
 
 module idlerLugg(q=0){
     translate([5.5,23,10.5])
