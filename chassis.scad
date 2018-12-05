@@ -86,6 +86,14 @@ module base(x,y,b=TOP_B){
     yrailR(x,y,b=b+RIGHT_B);
 }
 
+module base2(x,y,b=TOP_B){
+    xrailF(x,y,b=b);
+    xrailB(x,y,b=b);
+    translate([StepperWidth,0,0]) yrailL(x,y,q=b+LEFT_B);
+    translate([-StepperWidth,0,0]) yrailR(x,y,q=b+RIGHT_B);
+}
+
+
 module pillars(x,y,h,c=false){
     translate([v/2,v/2,0]) vslot20x20b(h);
     translate([x-v/2,v/2,0]) vslot20x20b(h);
@@ -115,6 +123,30 @@ module chassis(x,y,h,c=false){
 
     }
 }
+
+module chassis2(x,y,h,c=false){
+    xo=c?x/-2:0;
+    yo=c?y/-2:0;
+    ho=0;
+    translate([xo,yo,ho]){
+        base2(x,y,b=TOP_B);
+        translate([0,0,h-v]) base(x,y,b=BOT_B);
+        pillars(x,y,h);
+        
+*        yrailL(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+*        yrailR(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+        yrailL(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+        yrailR(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+
+*        xrailF(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+*        xrailB(x,y,leadScrewBearingH1-v/2,b=TOPBOT_B);
+        xrailF(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+        xrailB(x,y,leadScrewBearingH2-v/2,b=TOPBOT_B);
+
+    }
+}
+
+
 
 bomq(";lk;lk;");
 
