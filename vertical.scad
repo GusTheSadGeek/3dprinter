@@ -40,10 +40,10 @@ module verticalBearing(l=leadScrewBearingH2-30){
 module stepperAndLeadScrew(c=false, l=leadScrewBearingH2-10){
 	bom(str("Lead Screw"), str(l,"mm"), ["Hardware"],"https://e3d-online.com/motors-leadscrew-motor-with-pom-nut");
     stepper(c);
-    translate([0,0,BedHeight+30]) leadScrewCollar();
+    translate([0,0,BedHeight+38]) leadScrewCollar();
 
     colour("Red") translate([0,0,20]) cylinder(l,4,4);
-    translate([-StepperWidth+0,StepperWidth,leadScrewBearingH2]) rotate([0,0,270])leadScrewBearing(true);
+    translate([-StepperWidth+0,StepperWidth,l+18]) rotate([0,0,270])leadScrewBearing(true);
 }
 
 module leadScrewBearing(c=false){
@@ -159,6 +159,47 @@ module vertical_assy2(q=BedHeight){
     }
 }
 
+module bed3(q=BedHeight){
+	YY=300;	
+
+    translate([-8,18,q+65])             rotate([0,90,0]) vslot20x20(ChassisX+16);
+    translate([-8,YY-18,q+65])          rotate([0,90,0]) vslot20x20(ChassisX+16);
+
+    translate([37,-9,q+45])              rotate([0,90,90]) vslot20x20(YY+18);
+    translate([ChassisX-37,-9,q+45])     rotate([0,90,90]) vslot20x20(YY+18);
+    
+    translate([ChassisX/2-200,0,q+85])   color([0.7,.8,.8]) heaterPlate();
+    translate([ChassisX/2+000,0,q+85])   color([0.8,.8,.8]) heaterPlate();
+
+}
+
+
+module vertical_assy3(q=BedHeight){
+	YY=300;	
+
+    //translate(BLB(v)+[(ChassisX-StepperWidth)/2,-20,0]) 
+    
+    translate([0,40,0]) union(){
+        translate([StepperWidth/2,YY/2,20])          rotate([0,0,90])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
+        translate([10,0,20])     verticalRodWithLinearBearing(q=q,r=180);
+        translate([10,YY,20])    verticalRodWithLinearBearing(q=q,r=0);
+
+
+        translate([ChassisX-StepperWidth/2,YY/2,20])          rotate([0,0,90])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
+        translate([ChassisX-10,0,20])     verticalRodWithLinearBearing(q=q,r=180);
+        translate([ChassisX-10,YY,20])    verticalRodWithLinearBearing(q=q,r=0);
+  
+        bed3();
+        
+        translate([120,ChassisY,120]) filamentReel();
+        translate([ChassisX-120,ChassisY,120]) filamentReel();
+        translate([120,ChassisY,200+120]) filamentReel();
+        translate([ChassisX-120,ChassisY,200+120]) filamentReel();
+    }
+}
+
+
+
 module filamentReel(w=70){
 	translate([0,w/2,0]) rotate([90,0,0]) difference(){
 		union(){
@@ -176,7 +217,7 @@ module filamentReel(w=70){
 union(){
   $DETAIL = D_HIGH;
   
-  color("grey", 0.05) chassis2($DETAIL=D_LOW,$fn=1, x,y,h);
+  color("grey", 0.05) chassis($DETAIL=D_LOW,$fn=1, x,y,h);
 *  colour("blue",0.1) translate([(x-400)/2,(y-300)/2,200]) cube([400,300,3]);
-  vertical_assy2($fn=40);
+  vertical_assy3($fn=40);
 }

@@ -26,5 +26,5 @@ leadScrewBearingH2=ChassisH-110;
 StepperWidth=42.4;
 
 
-BedHeight=200;
-
+BedHeight=20 +0*270;
+ 
