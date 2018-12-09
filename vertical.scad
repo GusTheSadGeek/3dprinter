@@ -179,22 +179,23 @@ module vertical_assy3(q=BedHeight){
 
     //translate(BLB(v)+[(ChassisX-StepperWidth)/2,-20,0]) 
     
-    translate([0,40,0]) union(){
+    translate([0,50,0]) union(){
         translate([StepperWidth/2,YY/2,20])          rotate([0,0,90])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
         translate([10,0,20])     verticalRodWithLinearBearing(q=q,r=180);
         translate([10,YY,20])    verticalRodWithLinearBearing(q=q,r=0);
 
 
-        translate([ChassisX-StepperWidth/2,YY/2,20])          rotate([0,0,90])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
+        translate([ChassisX-StepperWidth/2,YY/2,20])          rotate([0,0,270])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
         translate([ChassisX-10,0,20])     verticalRodWithLinearBearing(q=q,r=180);
         translate([ChassisX-10,YY,20])    verticalRodWithLinearBearing(q=q,r=0);
   
         bed3();
         
-        translate([120,ChassisY,120]) filamentReel();
+/*        translate([120,ChassisY,120]) filamentReel();
         translate([ChassisX-120,ChassisY,120]) filamentReel();
         translate([120,ChassisY,200+120]) filamentReel();
         translate([ChassisX-120,ChassisY,200+120]) filamentReel();
+        */
     }
 }
 

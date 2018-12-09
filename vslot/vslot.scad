@@ -30,12 +30,12 @@ module vslot(length=50, sections=1, finish) {
 					linear_extrude(length+epsilon) polygon(cutext);
 					translate([5,-2.89,-20]) cube([10,5.78,length+40]);
 				}
-			if ($DETAIL > 3) {
+			if ($DETAIL > 5) {
 				for(i = [0:sections-1]) translate([i * 20 - 10 * (sections - 1),0,-epsilon/2])
 					cylinder(length+20, 2.1, 2.1);
 			}
 
-			if ($DETAIL > 3) {
+			if ($DETAIL > 5) {
 				for(i = [90,270]) rotate([0,0,-i])
 					translate([0,(sections - 1) * 10,-epsilon/2])
 					linear_extrude(length+epsilon) polygon(cutcorner);

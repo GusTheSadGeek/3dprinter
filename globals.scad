@@ -2,6 +2,7 @@ use <bom/bom.scad>;
 use <vslot/vslot.scad>;
 
 
+D_MAX=10;
 D_HIGH=5;
 D_MED=3;
 D_LOW=1;
@@ -26,5 +27,5 @@ leadScrewBearingH2=ChassisH-110;
 StepperWidth=42.4;
 
 
-BedHeight=20 +0*270;
+BedHeight=20 +$t*270;
  
