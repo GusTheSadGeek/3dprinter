@@ -25,7 +25,7 @@ module bomq(code, desc, category, link="X") {
         "\" }"));
     }
 }
-module bom(code, desc, category) {
+module bom(code, desc, category, link="X") {
 }
 
 
