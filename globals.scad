@@ -1,6 +1,9 @@
 use <bom/bom.scad>;
 use <vslot/vslot.scad>;
 
+ABS_MAX_WIDTH=545;
+ABS_MAX_DEPTH=470;
+
 
 D_MAX=10;
 D_HIGH=5;
@@ -10,9 +13,9 @@ D_LOWEST=0;
 
 //$DETAIL=D_HIGH;
 
-x=500;
-y=470;
-h=500;
+x=ABS_MAX_WIDTH-10;
+y=ABS_MAX_DEPTH;
+h=580;
 
 v=20;
 
@@ -22,7 +25,7 @@ ChassisY=y;
 ChassisH=h;
 
 leadScrewBearingH1=100;
-leadScrewBearingH2=ChassisH-110;
+leadScrewBearingH2=ChassisH-130;
 
 StepperWidth=42.4;
 
