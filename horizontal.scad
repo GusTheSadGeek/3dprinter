@@ -10,16 +10,18 @@ use <components.scad>;
 use <pulley_wheels.scad>;
 use <angle.scad>;
 
-Q=40;
-hwd=30;
+Q=32;  // XCarrage Tube separation / 2
+hwd=42;
 HW=ChassisY-hwd*2;
+X=ChassisX-32;
 
-YTUBE=14;
-YTUBEBEARING=16;
+YTUBE=12;
+YTUBEBEARING=14;
 
 XTUBE=12;
 XTUBEBEARING=14;
 
+VIRT_BELT_SEP=31;  // Verticle belt separation
 
 module vtube(x,y,t){
   difference(){
@@ -35,8 +37,8 @@ module htube(x,y,t){
 
 
 module belts(){
-  Z=40;  // Verticle belt separation
-  X=ChassisX-20;
+  Z=VIRT_BELT_SEP;  // Verticle belt separation
+
   Y=HW;
   C=6;  // Distance from centre of XCarrage
   Q=12;
@@ -46,7 +48,10 @@ module belts(){
   B=GantryPos-10;
 
   //B=50;
-  translate([10,0,0]){
+  translate([10,0,-1]){
+    translate([X,0,0])       toothed_wheel();  // motor
+    translate([X,0,-37])     stepper(1);  // motor
+
     color("red"){
        translate([B+C-q,Q,1]) belt(A,r=90);
        translate([B+C,Q,0])   smooth_idler_5mm();
@@ -54,7 +59,8 @@ module belts(){
        translate([0,0,0])       toothed_idler_5mm();
        translate([0,-q,1])      belt(X,r=0);
 
-       translate([X,0,0])       toothed_idler_5mm();
+
+
        translate([-q,Y,1])      belt(Y,r=270);
        translate([0,Y,0])       toothed_idler_5mm();
        translate([B-C,Y+q,1]) belt(B-C,r=180);
@@ -63,7 +69,10 @@ module belts(){
     }
 
 
-
+    translate([X,Y,Z+11]) mirror([0,0,1]){
+      toothed_wheel();  // motor
+      translate([0,0,-37])  stepper(1);  // motor
+    }
     color("yellow"){
        translate([B+C-q,A-Q+42,Z+1])   belt(Y-A-42,r=90);
        translate([B+C,Y-Q,Z])  smooth_idler_5mm();
@@ -72,7 +81,7 @@ module belts(){
        translate([0,0,Z])         toothed_idler_5mm();
        translate([X+q-q,Y+q,Z+1])   belt(X,r=180);
 
-       translate([X,Y,Z])  toothed_idler_5mm();
+
        translate([-q,Y,Z+1])      belt(Y,r=270);
        translate([0,Y,Z])  toothed_idler_5mm();
 
@@ -85,17 +94,17 @@ module belts(){
   }
 }
 
-module linear_slider(){
+/* module linear_slider(){
   l=44;
   w=27;
   h=10;
   difference(){
     cube([w,l,h]);
   }
-}
+} */
 
 
-module linear_rail(l=550, p=100){
+/* module linear_rail(l=550, p=100){
   w=12;
   h=8;
   rotate([0,0,270]) {
@@ -111,10 +120,10 @@ module linear_rail(l=550, p=100){
       }
     }
   }
-}
+} */
 
 
-module top_plate(){
+/* module top_plate(){
   *translate([0,0,0]) cube([ChassisX,40,2]);
   *translate([0,ChassisY-40,0]) cube([ChassisX,40,2]);
 
@@ -128,7 +137,7 @@ module top_plate(){
   translate([p+16,0,12]) rotate([0,0,90]) linear_rail(l=ChassisY, p=q);
 
 }
-
+ */
 XCAP_WIDTH=34;
 XCAP_DEPTH=19;
 XCAP_CUTTOUTWIDTH = XCAP_DEPTH-4;
@@ -158,18 +167,18 @@ module XCcap(){
   }
 }
 
-module leftXCx(){
+module leftXCx(right=0){
   w=19;
   h1=Q*2;
-  h2=24;
+  h2=18;
 
   difference(){
     union(){
       translate([-17,20,-Q])  cube([34,w,h1]);
-      translate([-10,-6,-12])    cube([20,40,h2]);
+      translate([-13,-6,-h2/2])    cube([26,40,h2]);
 *      translate([0,20,Q]) rotate([0,0,90]) htube(34,w,100);
 *      translate([0,20,-Q]) rotate([0,0,90]) htube(34,w,100);
-      translate([-20,30,0]) htube(24,40,100);
+      translate([-20,30,0]) htube(22,40,100);
 
 // hole bosses
       translate([10,19,30])    rotate([0,0,90]) htube(4,w+2,100);
@@ -181,16 +190,22 @@ module leftXCx(){
       translate([10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
       translate([-10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
 
-      translate([-6,0,-13])     vtube(8,h2+2,100);
-      translate([6,12,-13])     vtube(8,h2+2,100);
+      if (right == 0){
+        translate([-6,0,-h2/2-1])     vtube(8,h2+2,100);
+        translate([6,12,-h2/2-1])     vtube(8,h2+2,100);
+      } else {
+        translate([6,0,-h2/2-1])     vtube(8,h2+2,100);
+        translate([-6,12,-h2/2-1])     vtube(8,h2+2,100);
+      }
 
 
     }
-    translate([-25,30,0]) htube(YTUBEBEARING,50,100);  // bearing width 16 ?
+    translate([-25,30,0]) htube(YTUBEBEARING,50,100);
     translate([0,18,Q]) rotate([0,0,90]) htube(XTUBE,30,100);
     translate([0,18,-Q]) rotate([0,0,90]) htube(XTUBE,30,100);
-    translate([-3,15,14])    cube([6,30,12]);
-    translate([-3,15,-27])    cube([6,30,12]);
+
+    translate([-3,15,VIRT_BELT_SEP/2-6])    cube([6,30,12]);
+    translate([-3,15,-VIRT_BELT_SEP/2-6])    cube([6,30,12]);
 
     translate([10,-10,30])    rotate([0,0,90]) htube(2,60,100);
     translate([-10,-10,30])    rotate([0,0,90]) htube(2,60,100);
@@ -201,37 +216,41 @@ module leftXCx(){
     translate([10,-10,-15])    rotate([0,0,90]) htube(2,60,100);
     translate([-10,-10,-15])    rotate([0,0,90]) htube(2,60,100);
 
-
-    translate([-6,0,-15])     vtube(5,60,100);
-    translate([6,12,-40])     vtube(5,60,100);
+    if (right == 0){
+      translate([-6,0,-15])     vtube(5,60,100);
+      translate([6,12,-40])     vtube(5,60,100);
+    } else {
+      translate([6,0,-15])     vtube(5,60,100);
+      translate([-6,12,-40])     vtube(5,60,100);
+    }
   }
 
 }
 
-module leftXCa(){
+module leftXCa(right){
    difference(){
-    leftXCx();
+    leftXCx(right);
     translate([-40,30,-50]) cube([100,20,100]);
   }
 }
 
-module leftXCb(){
+module leftXCb(right){
    difference(){
-    leftXCx();
+    leftXCx(right);
     translate([-40,-30,-50]) cube([100,60,100]);
   }
 }
 
 
-module leftXC(){
+module leftXC(right=0){
   translate([0,20,Q])  XCcap();
   translate([0,20,-Q])  rotate ([0,180,0])XCcap();
-  colour("skyblue") translate([0,0.1,0]) leftXCb();
-  colour("blue")     translate([0,-0.1,0]) leftXCa();
+  colour("skyblue") translate([0,0.1,0]) leftXCb(right);
+  colour("blue")     translate([0,-0.1,0]) leftXCa(right);
 }
 
 module rightXC(){
-   translate([0,HW,0]) rotate([0,0,180]) leftXC();
+   translate([0,HW,0]) rotate([0,0,180]) leftXC(right=1);
 }
 
 module xcarraige_assy(){
@@ -251,7 +270,7 @@ module horizontal_assy(){
 
     translate([GantryPos,0,0]) xcarraige_assy();
   }
-  translate([0,hwd,ChassisH-26-z]) belts();
+  translate([0,hwd,ChassisH-20-z]) belts();
 }
 
 

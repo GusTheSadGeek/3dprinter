@@ -15,7 +15,7 @@ module bevelledCube(v,b,c){
         x=v[0];
         y=v[1];
         h=v[2];
-        
+
         xo=c?x/2:0;
         yo=c?y/2:0;
         ho=c?h/2:0;
@@ -34,8 +34,8 @@ module bevelledCube(v,b,c){
 
 
 module stepper(c=false){
-	bom(str("Stepper Motor"), str("NEMA 17"), ["Electronics"]);
-    
+  	bom(str("Stepper Motor"), str("NEMA 17"), ["Electronics"]);
+
     W=StepperWidth;
     L=34;
     H=31;
@@ -80,7 +80,7 @@ module idlerLugg(q=0){
 
 module idlerXY(){
     bom(str("ilderXY"), str("??"), ["Printed"]);
-    bom("F623ZZ bearing");bom("F623ZZ bearing");bom("F623ZZ bearing");bom("F623ZZ bearing"); 
+    bom("F623ZZ bearing");bom("F623ZZ bearing");bom("F623ZZ bearing");bom("F623ZZ bearing");
     bom("m3 bolt - longish");
     bom("m3 nylock nut");
     bomBN(2);
@@ -132,7 +132,7 @@ module CJ(){
     translate([100,0,0]) CornerJointJ();
     translate([100,0,0]) CornerJointK();
     translate([100,0,0]) CornerJointL();
-    
+
 //    translate([240,0,0]) CornerJointI();
 }
 

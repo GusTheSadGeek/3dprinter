@@ -24,6 +24,9 @@ ChassisX=x;
 ChassisY=y;
 ChassisH=h;
 
+DEFAULT_BELT=9;
+
+
 leadScrewBearingH1=100;
 leadScrewBearingH2=ChassisH-130;
 
