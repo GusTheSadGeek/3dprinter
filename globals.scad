@@ -26,12 +26,13 @@ ChassisH=h;
 
 DEFAULT_BELT=9;
 
+TOP_SPACE=106;
 
 leadScrewBearingH1=100;
-leadScrewBearingH2=ChassisH-130;
+leadScrewBearingH2=ChassisH-TOP_SPACE-40;
 
 StepperWidth=42.4;
-
+//###############################################################################
 //$t=0.5;
 BedHeight=20 +$t*270;
 GantryPos=50 + (ChassisX-100) *$t;

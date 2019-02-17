@@ -263,7 +263,7 @@ module xcarraige_assy(){
 
 
 module horizontal_assy(){
-  z=70;
+  z=TOP_SPACE-28;
   translate([0,hwd,ChassisH-z]){
     translate([0,HW-30,0]) htube($fn=50,YTUBE,ChassisX,1);
     translate([0,30,0]) htube($fn=50,YTUBE,ChassisX,1);
