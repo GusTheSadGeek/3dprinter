@@ -179,7 +179,7 @@ module vertical_assy3(q=BedHeight){
 
     //translate(BLB(v)+[(ChassisX-StepperWidth)/2,-20,0])
 
-	translate([0,15,0]) union(){
+	translate([0,80,0]) union(){
 		translate([StepperWidth/2,YY/2,20])          rotate([0,0,90])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
 		translate([10,37,20])     verticalRodWithLinearBearing(q=q,r=180);
 		translate([10,YY-37,20])    verticalRodWithLinearBearing(q=q,r=0);
