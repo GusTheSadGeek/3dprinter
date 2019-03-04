@@ -33,11 +33,11 @@ leadScrewBearingH2=ChassisH-TOP_SPACE-40;
 
 StepperWidth=42.4;
 //###############################################################################
-//$t=0.5;
+$t=1;
 BedHeight=20 +$t*270;
-GantryPos=50 + (ChassisX-100) *$t;
+GantryPos=40 + (ChassisX-100) *$t;
 XPos=GantryPos;
 
-YPos = (ChassisY-88)* (($t>0.5) ?  (1-$t)*2 : $t*2)+22;
-
+//YPos = (ChassisY-88)* (($t>0.5) ?  (1-$t)*2 : $t*2)+22;
+//Ypos = 200;
 //YPos = ($t>0.5) ?  (1-$t)*(ChassisY-66)*2 : $t*(ChassisY-66)*2;

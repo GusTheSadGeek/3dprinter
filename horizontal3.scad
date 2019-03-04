@@ -12,7 +12,7 @@ use <angle.scad>;
 
 Q=32;  // XCarrage Tube separation / 2
 
-hwd=30;
+hwd=42;
 HW=ChassisY-hwd*2;
 X=ChassisX-32;
 
@@ -43,10 +43,8 @@ module htube(x,y,t){
 module belts(){
   Z=VIRT_BELT_SEP;  // Verticle belt separation
 
-
-
 //  ZZ
-  Y=HW-40;
+  Y=HW;
   C=6;  // Distance from centre of XCarrage
   Q=12;
   q=6;
@@ -55,7 +53,7 @@ module belts(){
   B=GantryPos-10;
 
   //B=50;
-  translate([10,20,-1]){
+  translate([10,0,-1]){
     translate([X,0,0])       toothed_wheel();  // motor
     translate([X,0,-37])     stepper(1);  // motor
 
@@ -180,7 +178,7 @@ module leftXCx(right=0){
   difference(){
     union(){
       translate([-17,20,-Q])  cube([34,w,h1]);
-      translate([-13,-10,-h2/2])    cube([26,30,h2]);
+      translate([-13,6,-h2/2])    cube([26,30,h2]);
 *      translate([0,20,Q]) rotate([0,0,90]) htube(34,w,100);
 *      translate([0,20,-Q]) rotate([0,0,90]) htube(34,w,100);
       translate([-20,30,0]) htube(22,40,100);
@@ -195,8 +193,8 @@ module leftXCx(right=0){
       translate([10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
       translate([-10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
 
-      translate([-6,-2,-h2/2-1])     vtube(8,h2+2,100);
-      translate([6,-2,-h2/2-1])     vtube(8,h2+2,100);
+      translate([-6,12,-h2/2-1])     vtube(8,h2+2,100);
+      translate([6,12,-h2/2-1])     vtube(8,h2+2,100);
 
 
       /* if (right == 0){
@@ -225,8 +223,8 @@ module leftXCx(right=0){
     translate([10,-10,-15])    rotate([0,0,90]) htube(2,60,100);
     translate([-10,-10,-15])    rotate([0,0,90]) htube(2,60,100);
 
-    translate([-6,-2,-15])     vtube(5,60,100);
-    translate([6,-2,-40])     vtube(5,60,100);
+    translate([-6,12,-15])     vtube(5,60,100);
+    translate([6,12,-40])     vtube(5,60,100);
 
     /* if (right == 0){
       translate([-6,0,-15])     vtube(5,60,100);
@@ -254,28 +252,21 @@ module leftXCb(right){
 }
 
 
-module leftXCc(right=0){
-  translate([0,-30,0]){
-    translate([0,20,Q])  XCcap();
-    translate([0,20,-Q])  rotate ([0,180,0])XCcap();
-    colour("skyblue")  translate([0,0.1,0]) leftXCb(right);
-    colour("blue")     translate([0,-0.1,0]) leftXCa(right);
-  }
+module leftXC(right=0){
+  translate([0,20,Q])  XCcap();
+  translate([0,20,-Q])  rotate ([0,180,0])XCcap();
+  colour("skyblue") translate([0,0.1,0]) leftXCb(right);
+  colour("blue")     translate([0,-0.1,0]) leftXCa(right);
 }
-
-module leftXC(){
-   translate([0,0,0]) rotate([0,0,180]) leftXCc(right=0);
-}
-
 
 module rightXC(){
-   translate([0,HW,0]) rotate([0,0,0]) leftXCc(right=1);
+   translate([0,HW,0]) rotate([0,0,180]) leftXC(right=1);
 }
 
 module xcarraige_assy(){
 
-     translate([0,0,Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW,1);
-     translate([0,0,-Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW,1);
+     translate([0,18,Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW-36,1);
+     translate([0,18,-Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW-26,1);
      leftXC();
      rightXC();
 }
@@ -284,8 +275,8 @@ module xcarraige_assy(){
 module horizontal_assy(){
   z=TOP_SPACE-28;
   translate([0,hwd,ChassisH-z]){
-    translate([0,HW,0]) htube($fn=50,YTUBE,ChassisX,1);
-    translate([0,0,0]) htube($fn=50,YTUBE,ChassisX,1);
+    translate([0,HW-30,0]) htube($fn=50,YTUBE,ChassisX,1);
+    translate([0,30,0]) htube($fn=50,YTUBE,ChassisX,1);
 
     translate([GantryPos,0,0]) xcarraige_assy();
   }

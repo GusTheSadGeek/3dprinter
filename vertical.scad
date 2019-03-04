@@ -165,8 +165,8 @@ module bed3(q=BedHeight){
     translate([-8,18,q+65])             rotate([0,90,0]) vslot20x20(ChassisX+16);
     translate([-8,YY-18,q+65])          rotate([0,90,0]) vslot20x20(ChassisX+16);
 
-    translate([37,-9,q+45])              rotate([0,90,90]) vslot20x20(YY+18);
-    translate([ChassisX-37,-9,q+45])     rotate([0,90,90]) vslot20x20(YY+18);
+    translate([37,0,q+45])              rotate([0,90,90]) vslot20x20(YY);
+    translate([ChassisX-37,0,q+45])     rotate([0,90,90]) vslot20x20(YY);
 
     translate([ChassisX/2-200,0,q+85])   color([0.7,.8,.8]) heaterPlate();
     translate([ChassisX/2+000,0,q+85])   color([0.8,.8,.8]) heaterPlate();
@@ -179,7 +179,7 @@ module vertical_assy3(q=BedHeight){
 
     //translate(BLB(v)+[(ChassisX-StepperWidth)/2,-20,0])
 
-	translate([0,80,0]) union(){
+	translate([0,90,0]) union(){
 		translate([StepperWidth/2,YY/2,20])          rotate([0,0,90])    stepperAndLeadScrew(true,l=leadScrewBearingH2-54);
 		translate([10,37,20])     verticalRodWithLinearBearing(q=q,r=180);
 		translate([10,YY-37,20])    verticalRodWithLinearBearing(q=q,r=0);
