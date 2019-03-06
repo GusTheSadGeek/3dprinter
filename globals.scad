@@ -33,7 +33,7 @@ leadScrewBearingH2=ChassisH-TOP_SPACE-40;
 
 StepperWidth=42.4;
 //###############################################################################
-$t=1;
+$t=0.5;
 BedHeight=20 +$t*270;
 GantryPos=40 + (ChassisX-100) *$t;
 XPos=GantryPos;

@@ -281,11 +281,81 @@ module xcarraige_assy(){
 }
 
 
+module robEnd1(){
+  H = TOP_SPACE-36;
+  HH = TOP_SPACE+10;
+
+  translate([0,20-hwd,-H/2]) {
+    difference(){
+      color("red") cube([20,10,H]);
+      translate([-2,10,H/2]) htube(YTUBE,24,100);
+    }
+  }
+
+  translate([0,20-hwd,-H/2]) {
+    difference(){
+      translate([0,10,0]) color("lightcyan") cube([20,10,H]);
+      translate([-2,10,H/2]) htube(YTUBE,24,100);
+    }
+  }
+
+  color("lightcyan") translate([0,40-hwd,-HH/2]) {
+    difference() {
+      union(){
+        translate([0,0,23]) cube([20,20,13]);
+        translate([0,20,0]) cube([20,10,36]);
+        translate([0,20,0]) cube([20,30,10]);
+        translate([10,10,22])    vtube(8,16,100);
+      }
+      translate([10,10,21])    vtube(6,18,100);
+    }
+  }
+
+  color("lightcyan") translate([0,40-hwd,HH/2]) {
+    difference() {
+      union(){
+        translate([0,0,-36]) cube([20,30,13]);
+        translate([0,30,-36]) cube([20,10,36]);
+        translate([0,30,-10]) cube([20,30,10]);
+        translate([10,22,-38])    vtube(8,16,100);
+      }
+      translate([10,22,-39])    vtube(6,18,100);
+    }
+  }
+
+}
+
+module robEnd2(){
+  rotate([180,0,0]) robEnd1();
+}
+module robEnd3(){
+  H = TOP_SPACE-36;
+  HH = TOP_SPACE+10;
+
+  translate([-20,20-hwd,-H/2]) {
+    difference(){
+      color("red") cube([20,10,H]);
+      translate([-2,10,H/2]) htube(YTUBE,24,100);
+    }
+  }
+
+  translate([-20,20-hwd,-H/2]) {
+    difference(){
+      translate([0,10,0]) color("lightcyan") cube([20,10,H]);
+      translate([-2,10,H/2]) htube(YTUBE,24,100);
+    }
+  }
+}
 module horizontal_assy(){
   z=TOP_SPACE-28;
   translate([0,hwd,ChassisH-z]){
     translate([0,HW,0]) htube($fn=50,YTUBE,ChassisX,1);
     translate([0,0,0]) htube($fn=50,YTUBE,ChassisX,1);
+    translate([0,0,0]) robEnd1();
+    translate([0,HW,0])robEnd2();
+
+    translate([ChassisX,0,0]) robEnd3();
+
 
     translate([GantryPos,0,0]) xcarraige_assy();
   }
@@ -299,10 +369,9 @@ union(){
 
   color("grey", 0.05) chassis($DETAIL=D_LOW,$fn=1, x,y,h);
   color("grey", 0.05) vertical_assy3($fn=1);
- *toothed_20teeth_8mm();
 
   horizontal_assy($DETAIL = D_HIGH,$fn=40);
-	color("grey", 0.1) filament_assy();
+*	color("grey", 0.1) filament_assy();
 
 //  XCcap($fn=200);
 *  translate([-10,-10,-10]) belt(len=100);
