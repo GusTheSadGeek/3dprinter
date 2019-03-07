@@ -57,7 +57,7 @@ module belts(){
   //B=50;
   translate([10,20,-1]){
     translate([X,0,0])       toothed_wheel();  // motor
-    translate([X,0,-37])     stepper(1);  // motor
+    translate([X-20,-21,-37])     stepper(0);  // motor
 
     color("red"){
        translate([B+C-q,Q,1]) belt(A,r=90);
@@ -75,8 +75,8 @@ module belts(){
 
 
     translate([X,Y,Z+11]) mirror([0,0,1]){
-      toothed_wheel();  // motor
-      translate([0,0,-37])  stepper(1);  // motor
+      translate([1,0,0])  toothed_wheel();  // motor
+      translate([-20,-21,-37])  stepper(0);  // motor
     }
     color("yellow"){
        translate([B+C-q,A-Q+42,Z+1])   belt(Y-A-42,r=90);
@@ -289,6 +289,8 @@ module robEnd1(){
     difference(){
       color("red") cube([20,10,H]);
       translate([-2,10,H/2]) htube(YTUBE,24,100);
+      translate([10,16,H/2-13]) rotate([0,0,90]) htube(4,25,100);
+      translate([10,16,H/2+13]) rotate([0,0,90]) htube(4,25,100);
     }
   }
 
@@ -296,6 +298,12 @@ module robEnd1(){
     difference(){
       translate([0,10,0]) color("lightcyan") cube([20,10,H]);
       translate([-2,10,H/2]) htube(YTUBE,24,100);
+
+      translate([10,16,H/2-13]) rotate([0,0,90]) htube(8,5,100);
+      translate([10,16,H/2+13]) rotate([0,0,90]) htube(8,5,100);
+
+      translate([10,16,H/2-13]) rotate([0,0,90]) htube(4,25,100);
+      translate([10,16,H/2+13]) rotate([0,0,90]) htube(4,25,100);
     }
   }
 
@@ -305,9 +313,11 @@ module robEnd1(){
         translate([0,0,23]) cube([20,20,13]);
         translate([0,20,0]) cube([20,10,36]);
         translate([0,20,0]) cube([20,30,10]);
+        translate([10,40,0])    vtube(8,11,100);
         translate([10,10,22])    vtube(8,16,100);
       }
       translate([10,10,21])    vtube(6,18,100);
+      translate([10,40,-1])    vtube(6,22,100);
     }
   }
 
@@ -318,8 +328,10 @@ module robEnd1(){
         translate([0,30,-36]) cube([20,10,36]);
         translate([0,30,-10]) cube([20,30,10]);
         translate([10,22,-38])    vtube(8,16,100);
+        translate([10,50,-11])    vtube(8,16,100);
       }
       translate([10,22,-39])    vtube(6,18,100);
+      translate([10,50,-12])    vtube(6,16,100);
     }
   }
 
@@ -328,24 +340,86 @@ module robEnd1(){
 module robEnd2(){
   rotate([180,0,0]) robEnd1();
 }
+
 module robEnd3(){
-  H = TOP_SPACE-36;
+  H = TOP_SPACE-75;
   HH = TOP_SPACE+10;
+
+//  translate([-10,-15,10]) rotate([0,0,90]) htube(4,26,100);
+//  translate([-10,-15,-10]) rotate([0,0,90]) htube(4,26,100);
+
+//  translate([-10,6,10]) rotate([0,0,90]) htube(8,5,100);
+//  translate([-10,6,-10]) rotate([0,0,90]) htube(8,5,100);
+
 
   translate([-20,20-hwd,-H/2]) {
     difference(){
       color("red") cube([20,10,H]);
       translate([-2,10,H/2]) htube(YTUBE,24,100);
-    }
-  }
+      translate([10,0,25]) rotate([0,0,90]) htube(4,25,100);
+      translate([10,0,5]) rotate([0,0,90]) htube(4,25,100);
 
+    }
+}
   translate([-20,20-hwd,-H/2]) {
     difference(){
       translate([0,10,0]) color("lightcyan") cube([20,10,H]);
       translate([-2,10,H/2]) htube(YTUBE,24,100);
+      translate([10,16,25]) rotate([0,0,90]) htube(8,5,100);
+      translate([10,16,5]) rotate([0,0,90]) htube(8,5,100);
+
+      translate([10,0,25]) rotate([0,0,90]) htube(4,25,100);
+      translate([10,0,5]) rotate([0,0,90]) htube(4,25,100);
+
     }
   }
 }
+
+module stepperBracket(){
+  W=StepperWidth;
+  L=4;
+  H=31;
+  c=0;
+  xo=c?W/2:0;
+  yo=c?W/2:0;
+  ho=0;
+
+  translate([-42,-1,-24]){
+      difference(){
+          union(){
+            colour("Pink") bevelledCube([W,W,L],3);
+            /* translate([(W-H)/2,(W-H)/2,-L+5]) cylinder(4,2.5,2.5);
+            translate([(W-H)/2,H+(W-H)/2,-L+5]) cylinder(4,2.5,2.5);
+            translate([H+(W-H)/2,H+(W-H)/2,-L+5]) cylinder(4,2.5,2.5);
+            translate([H+(W-H)/2,(W-H)/2,-L+5]) cylinder(4,2.5,2.5); */
+          }
+          colour("white"){
+              translate([(W-H)/2,(W-H)/2,-L]) cylinder(10,1.5,1.5);
+              translate([(W-H)/2,H+(W-H)/2,-L]) cylinder(10,1.5,1.5);
+              translate([H+(W-H)/2,H+(W-H)/2,-L]) cylinder(10,1.5,1.5);
+              translate([H+(W-H)/2,(W-H)/2,-L]) cylinder(10,1.5,1.5);
+              colour("LightGray") translate([W/2,W/2,-L-1]) cylinder(10,11,11, $fn=100);
+          }
+      }
+  }
+  difference(){
+    colour("Pink") union() {
+      translate([-4,-10,-24]) cube([4,W+9,4]);
+      translate([-39,41,-58]) cube([43,L,H+L+3]);
+      translate([0,-30,-78]) cube([L,W+29,58]);
+      translate([1,-20,-30]) htube(6,4,10);
+      translate([1,-20,-68]) htube(6,4,10);
+      translate([1,25,-68]) htube(6,4,10);
+
+    }
+    translate([-1,-20,-30]) htube(4,10,10);
+    translate([-1,-20,-68]) htube(4,10,10);
+    translate([-1,25,-68]) htube(4,10,10);
+  }
+
+
+}
+
 module horizontal_assy(){
   z=TOP_SPACE-28;
   translate([0,hwd,ChassisH-z]){
@@ -356,6 +430,10 @@ module horizontal_assy(){
 
     translate([ChassisX,0,0]) robEnd3();
 
+    translate([ChassisX,ChassisY-60,0])  rotate([180,0,0]) robEnd3();
+
+    translate([ChassisX,0,0])  stepperBracket();
+    translate([ChassisX,ChassisY-60,0])  rotate([180,0,0]) stepperBracket();
 
     translate([GantryPos,0,0]) xcarraige_assy();
   }
