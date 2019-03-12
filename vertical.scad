@@ -10,7 +10,7 @@ use <angle.scad>;
 
 
 
-module heaterPlate(x=200, y=300, z=2){
+module heaterPlate(x=300, y=300, z=2){
 	bom(str("HeaterPlate"), str(x,"mm"), ["Hardware"],"????");
     cube([x,y,z]);
 }
@@ -169,7 +169,6 @@ module bed3(q=BedHeight){
     translate([ChassisX-37,0,q+45])     rotate([0,90,90]) vslot20x20(YY);
 
     translate([ChassisX/2-200,0,q+85])   color([0.7,.8,.8]) heaterPlate();
-    translate([ChassisX/2+000,0,q+85])   color([0.8,.8,.8]) heaterPlate();
 
 }
 

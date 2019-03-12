@@ -12,9 +12,9 @@ use <angle.scad>;
 
 Q=32;  // XCarrage Tube separation / 2
 
-hwd=30;
+hwd=10;
 HW=ChassisY-hwd*2;
-X=ChassisX-32;
+X=ChassisX+10;
 
 YTUBE=12;
 YTUBEBEARING=14;
@@ -22,7 +22,7 @@ YTUBEBEARING=14;
 XTUBE=12;
 XTUBEBEARING=14;
 
-VIRT_BELT_SEP=31;  // Verticle belt separation
+VIRT_BELT_SEP=10;  // Verticle belt separation
 
 //YPos = HW * (($t>0.5) ?  (1-$t)*2 : $t*2)+22;
 YPos = (HW*.7)*$t + HW*0.1;
@@ -63,19 +63,21 @@ module belts(){
        translate([B+C-q,Q,1]) belt(A,r=90);
        translate([B+C,Q,0])   smooth_idler_5mm();
        translate([X,q,1])       belt(X-B-C,r=180);
-       translate([0,0,0])       toothed_idler_5mm();
+       translate([0,0,0])       toothed_idler_5mm();  //
+//       translate([0,0,0])       toothed_idler_5mm();  //
        translate([0,-q,1])      belt(X,r=0);
 
-       translate([-q,Y-Q,1])      belt(Y-Q,r=270);
-       translate([0,Y-Q,0])       toothed_idler_5mm();
-       translate([B-C,Y+q-Q,1]) belt(B-C,r=180);
+       translate([Q-q,Y-Q,1])      belt(Y-Q,r=268);
+//       translate([0,Y-Q,0])       toothed_idler_5mm();
+       translate([Q,Y-Q,0])       toothed_idler_5mm();
+       translate([B-C,Y+q-Q,1]) belt(B-C-Q,r=180);
        translate([B-C,Y-Q,0])   toothed_idler_5mm();
        translate([B-C+q,A+30,1]) belt(Y-A-30-Q,r=90);
     }
 
 
-    translate([X,Y,Z+11]) mirror([0,0,1]){
-      translate([1,0,0])  toothed_wheel();  // motor
+    translate([X,Y,-1]) {
+      translate([1,0,22])  mirror([0,0,1]) toothed_wheel();  // motor
       translate([-20,-21,-37])  stepper(0);  // motor
     }
     color("yellow"){
@@ -83,14 +85,16 @@ module belts(){
        translate([B+C,Y-Q,Z])  smooth_idler_5mm();
        translate([B+C+q-q,Y-q,Z+1])   belt(X-B-C,r=0);
 
-       translate([0,Q,Z])         toothed_idler_5mm();
+
+//       translate([0,Q,Z])         toothed_idler_5mm();  //
+       translate([Q,Q,Z])         toothed_idler_5mm();  //
        translate([X+q-q,Y+q,Z+1])   belt(X,r=180);
 
 
-       translate([-q,Y,Z+1])      belt(Y-Q,r=270);
+       translate([-q,Y,Z+1])      belt(Y-Q,r=272);
        translate([0,Y,Z])  toothed_idler_5mm();
 
-       translate([q-q,Q-q,Z+1])   belt(B-C,r=0);
+       translate([q-q+Q,Q-q,Z+1])   belt(B-C-Q,r=0);
 
        translate([B-C,Q,Z])  toothed_idler_5mm();
 
@@ -384,7 +388,7 @@ module stepperBracket(){
   yo=c?W/2:0;
   ho=0;
 
-  translate([-42,-1,-24]){
+  translate([0,-1,-24]){
       difference(){
           union(){
             colour("Pink") bevelledCube([W,W,L],3);
@@ -402,7 +406,7 @@ module stepperBracket(){
           }
       }
   }
-  difference(){
+  /* difference(){
     colour("Pink") union() {
       translate([-4,-10,-24]) cube([4,W+9,4]);
       translate([-39,41,-58]) cube([43,L,H+L+3]);
@@ -415,7 +419,7 @@ module stepperBracket(){
     translate([-1,-20,-30]) htube(4,10,10);
     translate([-1,-20,-68]) htube(4,10,10);
     translate([-1,25,-68]) htube(4,10,10);
-  }
+  } */
 
 
 }
@@ -425,12 +429,12 @@ module horizontal_assy(){
   translate([0,hwd,ChassisH-z]){
     translate([0,HW,0]) htube($fn=50,YTUBE,ChassisX,1);
     translate([0,0,0]) htube($fn=50,YTUBE,ChassisX,1);
-    translate([0,0,0]) robEnd1();
+    /* translate([0,0,0]) robEnd1();
     translate([0,HW,0])robEnd2();
 
     translate([ChassisX,0,0]) robEnd3();
 
-    translate([ChassisX,ChassisY-60,0])  rotate([180,0,0]) robEnd3();
+    translate([ChassisX,ChassisY-60,0])  rotate([180,0,0]) robEnd3(); */
 
     translate([ChassisX,0,0])  stepperBracket();
     translate([ChassisX,ChassisY-60,0])  rotate([180,0,0]) stepperBracket();
