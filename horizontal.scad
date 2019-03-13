@@ -22,7 +22,7 @@ YTUBEBEARING=14;
 XTUBE=12;
 XTUBEBEARING=14;
 
-VIRT_BELT_SEP=10;  // Verticle belt separation
+VIRT_BELT_SEP=12;  // Verticle belt separation
 
 //YPos = HW * (($t>0.5) ?  (1-$t)*2 : $t*2)+22;
 YPos = (HW*.7)*$t + HW*0.1;
@@ -60,8 +60,8 @@ module belts(){
     translate([X-20,-21,-37])     stepper(0);  // motor
 
     color("red"){
-       translate([B+C-q,Q,1]) belt(A,r=90);
-       translate([B+C,Q,0])   smooth_idler_5mm();
+       translate([B-q,Q,1]) belt(A,r=90);
+       translate([B,Q,0])   smooth_idler_5mm();
        translate([X,q,1])       belt(X-B-C,r=180);
        translate([0,0,0])       toothed_idler_5mm();  //
 //       translate([0,0,0])       toothed_idler_5mm();  //
@@ -71,8 +71,8 @@ module belts(){
 //       translate([0,Y-Q,0])       toothed_idler_5mm();
        translate([Q,Y-Q,0])       toothed_idler_5mm();
        translate([B-C,Y+q-Q,1]) belt(B-C-Q,r=180);
-       translate([B-C,Y-Q,0])   toothed_idler_5mm();
-       translate([B-C+q,A+30,1]) belt(Y-A-30-Q,r=90);
+       translate([B,Y-Q,0])   toothed_idler_5mm();
+       translate([B+q,A+30,1]) belt(Y-A-30-Q,r=90);
     }
 
 
@@ -81,8 +81,8 @@ module belts(){
       translate([-20,-21,-37])  stepper(0);  // motor
     }
     color("yellow"){
-       translate([B+C-q,A-Q+42,Z+1])   belt(Y-A-42,r=90);
-       translate([B+C,Y-Q,Z])  smooth_idler_5mm();
+       translate([B-q,A-Q+42,Z+1])   belt(Y-A-42,r=90);
+       translate([B,Y-Q,Z])  smooth_idler_5mm();
        translate([B+C+q-q,Y-q,Z+1])   belt(X-B-C,r=0);
 
 
@@ -96,9 +96,9 @@ module belts(){
 
        translate([q-q+Q,Q-q,Z+1])   belt(B-C-Q,r=0);
 
-       translate([B-C,Q,Z])  toothed_idler_5mm();
+       translate([B,Q,Z])  toothed_idler_5mm();
 
-       translate([B-C+q,Q,Z+1])   belt(A+12-Q,r=90);
+       translate([B+q,Q,Z+1])   belt(A+12-Q,r=90);
     }
   }
 }
@@ -184,23 +184,28 @@ module leftXCx(right=0){
   difference(){
     union(){
       translate([-17,20,-Q])  cube([34,w,h1]);
-      translate([-13,-10,-h2/2])    cube([26,30,h2]);
+      translate([-13,-10,-h2/2-8])    cube([26,30,5]);
+      translate([-13,-10,+h2/2+4])    cube([26,30,5]);
+
+      translate([-13,-10,+h2/2+4])    cube([26,30,5]);
+
+
 *      translate([0,20,Q]) rotate([0,0,90]) htube(34,w,100);
 *      translate([0,20,-Q]) rotate([0,0,90]) htube(34,w,100);
       translate([-20,30,0]) htube(22,40,100);
 
 // hole bosses
-      translate([10,19,30])    rotate([0,0,90]) htube(4,w+2,100);
+      /* translate([10,19,30])    rotate([0,0,90]) htube(4,w+2,100);
       translate([-10,19,30])    rotate([0,0,90]) htube(4,w+2,100);
       translate([10,19,15])    rotate([0,0,90]) htube(4,w+2,100);
       translate([-10,19,15])    rotate([0,0,90]) htube(4,w+2,100);
       translate([10,19,-30])    rotate([0,0,90]) htube(4,w+2,100);
       translate([-10,19,-30])    rotate([0,0,90]) htube(4,w+2,100);
       translate([10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([-10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
+      translate([-10,19,-15])    rotate([0,0,90]) htube(4,w+2,100); */
 
-      translate([-6,-2,-h2/2-1])     vtube(8,h2+2,100);
-      translate([6,-2,-h2/2-1])     vtube(8,h2+2,100);
+//      translate([-6,-2,-h2/2-1])     vtube(8,h2+2,100);
+//      translate([6,-2,-h2/2-1])     vtube(8,h2+2,100);
 
 
       /* if (right == 0){
@@ -217,20 +222,20 @@ module leftXCx(right=0){
     translate([0,18,Q]) rotate([0,0,90]) htube(XTUBE,30,100);
     translate([0,18,-Q]) rotate([0,0,90]) htube(XTUBE,30,100);
 
-    translate([-3,15,VIRT_BELT_SEP/2-6])    cube([6,30,12]);
-    translate([-3,15,-VIRT_BELT_SEP/2-6])    cube([6,30,12]);
+//    translate([-3,15,VIRT_BELT_SEP/2-6])    cube([6,30,12]);
+//    translate([-3,15,-VIRT_BELT_SEP/2-6])    cube([6,30,12]);
 
-    translate([10,-10,30])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,30])    rotate([0,0,90]) htube(2,60,100);
-    translate([10,-10,15])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,15])    rotate([0,0,90]) htube(2,60,100);
-    translate([10,-10,-30])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,-30])    rotate([0,0,90]) htube(2,60,100);
-    translate([10,-10,-15])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,-15])    rotate([0,0,90]) htube(2,60,100);
+    translate([10,-10,25])    rotate([0,0,90]) htube(2,60,100);
+    translate([-10,-10,25])    rotate([0,0,90]) htube(2,60,100);
+    translate([10,-10,10])    rotate([0,0,90]) htube(2,60,100);
+    translate([-10,-10,10])    rotate([0,0,90]) htube(2,60,100);
+    translate([10,-10,-25])    rotate([0,0,90]) htube(2,60,100);
+    translate([-10,-10,-25])    rotate([0,0,90]) htube(2,60,100);
+    translate([10,-10,-10])    rotate([0,0,90]) htube(2,60,100);
+    translate([-10,-10,-10])    rotate([0,0,90]) htube(2,60,100);
 
-    translate([-6,-2,-15])     vtube(5,60,100);
-    translate([6,-2,-40])     vtube(5,60,100);
+//    translate([0,-2,-15])     vtube(5,60,100);
+    translate([0,-2,-40])     vtube(5,60,100);
 
     /* if (right == 0){
       translate([-6,0,-15])     vtube(5,60,100);
@@ -441,7 +446,7 @@ module horizontal_assy(){
 
     translate([GantryPos,0,0]) xcarraige_assy();
   }
-  translate([0,hwd,ChassisH-20-z]) belts();
+  translate([0,hwd,ChassisH-10-z]) belts();
 }
 
 
