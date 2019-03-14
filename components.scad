@@ -9,9 +9,11 @@ module colour(c,t){
     color(c,t) children();
 }
 
-
-
 module bevelledCube(v,b,c){
+  bevelledCube4(v,b,c);
+}
+
+module bevelledCube4(v,b,c){
         x=v[0];
         y=v[1];
         h=v[2];
@@ -28,6 +30,66 @@ module bevelledCube(v,b,c){
 
             translate([0,b,0])  cube([q,y-2*b,h]);
             translate([x,b,0])  cube([q,y-2*b,h]);
+        }
+}
+
+module bevelledCube4v(v,b,c){
+        x=v[0];
+        y=v[1];
+        h=v[2];
+
+        xo=c?x/2:0;
+        yo=c?y/2:0;
+        ho=c?h/2:0;
+
+        q=0.0000000001;
+        translate([-xo,-yo,-ho])
+        hull(){
+          translate([0,0,b])  cube([q,y,h-2*b]);
+          translate([x,0,b])  cube([q,y,h-2*b]);
+          translate([b,0,h])   cube([x-2*b,y,q]);
+          translate([b,0,0])   cube([x-2*b,y,q]);
+        }
+}
+
+
+module bevelledCube6(v,b,c){
+        x=v[0];
+        y=v[1];
+        h=v[2];
+
+        xo=c?x/2:0;
+        yo=c?y/2:0;
+        ho=c?h/2:0;
+
+        q=0.0000000001;
+        translate([-xo,-yo,-ho])
+        hull(){
+            translate([b,0,b])  cube([x-2*b,q,h-2*b]);
+            translate([b,y,b])  cube([x-2*b,q,h-2*b]);
+
+            translate([0,b,b])  cube([q,y-2*b,h-2*b]);
+            translate([x,b,b])  cube([q,y-2*b,h-2*b]);
+
+            translate([b,b,h])   cube([x-2*b,y-2*b,q]);
+            translate([b,b,0])   cube([x-2*b,y-2*b,q]);
+        }
+}
+
+module fillet(v,b,c){
+        x=v[0];
+        y=v[1];
+        h=v[2];
+
+        xo=c?x/2:0;
+        yo=c?y/2:0;
+        ho=c?h/2:0;
+
+        q=0.0000000001;
+        translate([-xo,-yo,-ho])
+        hull(){
+          translate([b,0,0])  cube([x-2*b,y,q]);
+          translate([b,y,0])  cube([x-2*b,q,h]);
         }
 }
 

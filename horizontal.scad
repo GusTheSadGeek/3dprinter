@@ -17,7 +17,7 @@ HW=ChassisY-hwd*2;
 X=ChassisX+10;
 
 YTUBE=12;
-YTUBEBEARING=14;
+YTUBEBEARING=16;
 
 XTUBE=12;
 XTUBEBEARING=14;
@@ -177,98 +177,69 @@ module XCcap(){
 }
 
 module leftXCx(right=0){
-  w=19;
-  h1=Q*2;
-  h2=18;
+  // Q = distance between XCarrage tubes and Y Tube
 
+  h1=Q*2;  // dist between X Carriage tube
+  height=h1+(XTUBE+4*2); // Total body height
+
+  width=34;
+  depth=20;
+  h2=18;
   difference(){
     union(){
-      translate([-17,20,-Q])  cube([34,w,h1]);
-      translate([-13,-10,-h2/2-8])    cube([26,30,5]);
-      translate([-13,-10,+h2/2+4])    cube([26,30,5]);
+      // main body
+      translate([-width/2, 20, -height/2])  bevelledCube6([width,depth,height],2);
 
-      translate([-13,-10,+h2/2+4])    cube([26,30,5]);
+      // Top belt bracket
+      translate([-width/2,-10,-h2/2-8])    bevelledCube6([width,35,5],1);
+      translate([-width*.8/2,-5,h2/2+9]) fillet([8,30,6],1);
+      translate([width*.8/2-8,-5,h2/2+9]) fillet([8,30,6],1);
 
+      // Bottom belt bracket
+      translate([-width/2,-10,+h2/2+4])    bevelledCube6([width,35,5],1);
+      translate([-width*.8/2,-5,-h2/2-8]) mirror([0,0,1]) fillet([8,30,6],1);
+      translate([width*.8/2-8,-5,-h2/2-8]) mirror([0,0,1]) fillet([8,30,6],1);
 
-*      translate([0,20,Q]) rotate([0,0,90]) htube(34,w,100);
-*      translate([0,20,-Q]) rotate([0,0,90]) htube(34,w,100);
-      translate([-20,30,0]) htube(22,40,100);
-
-// hole bosses
-      /* translate([10,19,30])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([-10,19,30])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([10,19,15])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([-10,19,15])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([10,19,-30])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([-10,19,-30])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([10,19,-15])    rotate([0,0,90]) htube(4,w+2,100);
-      translate([-10,19,-15])    rotate([0,0,90]) htube(4,w+2,100); */
-
-//      translate([-6,-2,-h2/2-1])     vtube(8,h2+2,100);
-//      translate([6,-2,-h2/2-1])     vtube(8,h2+2,100);
-
-
-      /* if (right == 0){
-        translate([-6,0,-h2/2-1])     vtube(8,h2+2,100);
-        translate([6,12,-h2/2-1])     vtube(8,h2+2,100);
-      } else {
-        translate([6,0,-h2/2-1])     vtube(8,h2+2,100);
-        translate([-6,12,-h2/2-1])     vtube(8,h2+2,100);
-      } */
-
-
+      // bearing housing
+      translate([-width*0.6,30,0]) htube(depth,width*1.2,100);
     }
+    // Bearing hole
     translate([-25,30,0]) htube(YTUBEBEARING,50,100);
+
+    // Top tube hole
     translate([0,18,Q]) rotate([0,0,90]) htube(XTUBE,30,100);
+
+    // Bottom tube hole
     translate([0,18,-Q]) rotate([0,0,90]) htube(XTUBE,30,100);
 
-//    translate([-3,15,VIRT_BELT_SEP/2-6])    cube([6,30,12]);
-//    translate([-3,15,-VIRT_BELT_SEP/2-6])    cube([6,30,12]);
+    // Top Cutout
+    translate([0,19,Q]) cube([width/2+2,depth+2,1]);
+    // Bottom Cutout
+    translate([0,19,-Q]) cube([width/2+2,depth+2,1]);
 
-    translate([10,-10,25])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,25])    rotate([0,0,90]) htube(2,60,100);
-    translate([10,-10,10])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,10])    rotate([0,0,90]) htube(2,60,100);
-    translate([10,-10,-25])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,-25])    rotate([0,0,90]) htube(2,60,100);
-    translate([10,-10,-10])    rotate([0,0,90]) htube(2,60,100);
-    translate([-10,-10,-10])    rotate([0,0,90]) htube(2,60,100);
-
-//    translate([0,-2,-15])     vtube(5,60,100);
+    // Belt idler hole
     translate([0,-2,-40])     vtube(5,60,100);
 
-    /* if (right == 0){
-      translate([-6,0,-15])     vtube(5,60,100);
-      translate([6,12,-40])     vtube(5,60,100);
-    } else {
-      translate([6,0,-15])     vtube(5,60,100);
-      translate([-6,12,-40])     vtube(5,60,100);
-    } */
+    translate([width*.35,30,Q-15])      vtube(3,60,100);
+    translate([width*.35,30,-2*Q-15])   vtube(3,60,100);
+
+    nutwidth=6;
+    translate([width*.35-nutwidth/2,20+depth/2-nutwidth/2,-Q+5])      cube([16,nutwidth,4]);
+    translate([width*.35-nutwidth/2,20+depth/2-nutwidth/2,Q-10])      cube([16,nutwidth,4]);
+
   }
+
 
 }
 
 module leftXCa(right){
-   difference(){
     leftXCx(right);
-    translate([-40,30,-50]) cube([100,20,100]);
-  }
-}
-
-module leftXCb(right){
-   difference(){
-    leftXCx(right);
-    translate([-40,-30,-50]) cube([100,60,100]);
-  }
 }
 
 
 module leftXCc(right=0){
   translate([0,-30,0]){
-    translate([0,20,Q])  XCcap();
-    translate([0,20,-Q])  rotate ([0,180,0])XCcap();
-    colour("skyblue")  translate([0,0.1,0]) leftXCb(right);
-    colour("blue")     translate([0,-0.1,0]) leftXCa(right);
+    colour("blue") leftXCa(right);
   }
 }
 
@@ -283,13 +254,39 @@ module rightXC(){
 
 module xcarraige_assy(){
 
-     translate([0,0,Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW,1);
-     translate([0,0,-Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW,1);
+     translate([0,-10,Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW+20,1);
+     translate([0,-10,-Q]) rotate([0,0,90]) htube($fn=50,XTUBE,HW+20,1);
      leftXC();
      rightXC();
 }
+module cornerIdler2(){
+  mirror([0,1,0]) cornerIdler1();
+}
+module cornerIdler1(){
+  H = TOP_SPACE-50;
+  HH = TOP_SPACE+10;
 
+  color("pink") {
+      difference(){
+        union(){
+          translate([0,10,-30]) bevelledCube4v([30,5,60],2);
+          translate([20,-10,-20]) bevelledCube6([10,22,40],2);
+          translate([0,10,-17]) bevelledCube4([30,30,5],2);
+          translate([0,10,13]) bevelledCube4([30,30,5],2);
+        }
+        translate([2,11,-12]) cube([32,5,25]);
+        translate([22,32,-20]) vtube(5,66,100);
+        translate([10,20,-20]) vtube(5,66,100);
+        translate([-1,0,0]) htube(12,66,100);
 
+        translate([-1,0,12]) htube(4,66,100);
+        translate([-1,0,-12]) htube(4,66,100);
+
+        translate([10,0,25])  rotate([0,0,90]) htube(4,66,100);
+        translate([10,0,-25])  rotate([0,0,90]) htube(4,66,100);
+      }
+  }
+}
 module robEnd1(){
   H = TOP_SPACE-36;
   HH = TOP_SPACE+10;
@@ -432,8 +429,12 @@ module stepperBracket(){
 module horizontal_assy(){
   z=TOP_SPACE-28;
   translate([0,hwd,ChassisH-z]){
-    translate([0,HW,0]) htube($fn=50,YTUBE,ChassisX,1);
-    translate([0,0,0]) htube($fn=50,YTUBE,ChassisX,1);
+    translate([20,HW,0]) htube($fn=50,YTUBE,ChassisX-40,1);
+    translate([20,0,0])  htube($fn=50,YTUBE,ChassisX-40,1);
+
+    translate([0,0,0]) cornerIdler1();
+    translate([0,ChassisY-20,0]) cornerIdler2();
+
     /* translate([0,0,0]) robEnd1();
     translate([0,HW,0])robEnd2();
 
@@ -454,7 +455,7 @@ module horizontal_assy(){
 union(){
   $DETAIL = D_LOW;
 
-  color("grey", 0.05) chassis($DETAIL=D_LOW,$fn=1, x,y,h);
+//  color("grey", 0.05) chassis($DETAIL=D_LOW,$fn=1, x,y,h);
   color("grey", 0.05) vertical_assy3($fn=1);
 
   horizontal_assy($DETAIL = D_HIGH,$fn=40);
