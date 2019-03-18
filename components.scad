@@ -76,20 +76,16 @@ module bevelledCube6(v,b,c){
         }
 }
 
-module fillet(v,b,c){
+module fillet(v,n=1){
         x=v[0];
         y=v[1];
         h=v[2];
-
-        xo=c?x/2:0;
-        yo=c?y/2:0;
-        ho=c?h/2:0;
-
         q=0.0000000001;
-        translate([-xo,-yo,-ho])
         hull(){
-          translate([b,0,0])  cube([x-2*b,y,q]);
-          translate([b,y,0])  cube([x-2*b,q,h]);
+          translate([(x*n-x)/2,0,0])  cube([x,y,q]);
+          translate([0,y,0])  cube([x*n,q,q]);
+          translate([(x*n-x)/2,y,h])  cube([x,q,q]);
+
         }
 }
 

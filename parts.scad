@@ -10,7 +10,17 @@ use <horizontal.scad>;
 
 $fn=150;
 // XCarriage End
-*leftXCa();
+leftXCa();
 
 // CornerIdlerBracket
-cornerIdler1();
+*cornerIdler1();
+
+// CornerIdlerBracket
+*cornerIdler2();
+
+
+*tubeHolder();
+
+*stepperBracket();
+
+*stepperBracketPadding(2);

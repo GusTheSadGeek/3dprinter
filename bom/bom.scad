@@ -1,6 +1,6 @@
 
 
-module bomq(code, desc, category, link="X") {
+module bom(code, desc, category, link="X") {
     if (link == "X") {
         echo(str(
         "BOM: { \"code\" : \"",
@@ -20,12 +20,12 @@ module bomq(code, desc, category, link="X") {
         desc,
         "\", \"categories\" : ",
         category,
-        "\", \"link\" : \"",
+        ", \"link\" : \"",
         link,
         "\" }"));
     }
 }
-module bom(code, desc, category, link="X") {
+module bomq(code, desc, category, link="X") {
 }
 
 
